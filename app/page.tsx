@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useAudio } from '@/contexts/AudioContext';
-import { Play, Pause, Clock, Music, Volume2 } from 'lucide-react';
 import TimerScreen from '@/components/TimerScreen';
 import SoundsScreen from '@/components/SoundsScreen';
 
@@ -69,27 +68,39 @@ export default function PlayerPage() {
               {/* Inner circle with button */}
               <button
                 onClick={togglePlayPause}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[120px] rounded-full bg-white flex items-center justify-center z-10 transition-all duration-300 hover:scale-105 active:scale-95"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[120px] rounded-full bg-white flex items-center justify-center z-10 transition-all duration-[400ms] hover:scale-105 active:scale-[0.92]"
                 style={{ 
-                  boxShadow: '0 0 40px var(--glow-sage), inset 0 0 30px rgba(255, 232, 222, 0.15)' 
+                  boxShadow: '0 0 40px var(--glow-sage), inset 0 0 30px rgba(255, 232, 222, 0.15)',
+                  transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
               >
                 {isPlaying ? (
-                  <Pause 
-                    className="w-12 h-12 transition-all duration-300" 
+                  <svg 
+                    width="48" 
+                    height="48" 
+                    viewBox="0 0 24 24" 
+                    fill="none"
                     style={{ 
-                      fill: 'var(--accent-terracotta-deep)',
-                      filter: 'drop-shadow(0 2px 8px rgba(212, 145, 106, 0.2))'
-                    }} 
-                  />
+                      filter: 'drop-shadow(0 2px 8px rgba(212, 145, 106, 0.2))',
+                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                    }}
+                  >
+                    <rect x="6" y="4" width="4" height="16" rx="1" fill="#D4916A"/>
+                    <rect x="14" y="4" width="4" height="16" rx="1" fill="#D4916A"/>
+                  </svg>
                 ) : (
-                  <Play 
-                    className="w-12 h-12 ml-1 transition-all duration-300" 
+                  <svg 
+                    width="48" 
+                    height="48" 
+                    viewBox="0 0 24 24" 
+                    fill="none"
                     style={{ 
-                      fill: 'var(--accent-terracotta-deep)',
-                      filter: 'drop-shadow(0 2px 8px rgba(212, 145, 106, 0.2))'
-                    }} 
-                  />
+                      filter: 'drop-shadow(0 2px 8px rgba(212, 145, 106, 0.2))',
+                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                    }}
+                  >
+                    <path d="M8 5v14l11-7z" fill="#D4916A"/>
+                  </svg>
                 )}
               </button>
             </div>
@@ -139,7 +150,15 @@ export default function PlayerPage() {
 
             {/* Volume Control */}
             <div className="flex items-center gap-5 pt-4">
-              <Volume2 className="w-5 h-5" style={{ stroke: 'var(--text-tertiary)' }} />
+              <svg 
+                width="20" 
+                height="20" 
+                viewBox="0 0 24 24" 
+                fill="none"
+                style={{ stroke: 'var(--text-tertiary)', strokeWidth: 1.8 }}
+              >
+                <path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
               <div className="flex-1 h-[6px] rounded-full relative" style={{ background: 'var(--border-subtle)' }}>
                 <div 
                   className="h-full rounded-full transition-all duration-300"
@@ -156,32 +175,39 @@ export default function PlayerPage() {
           <div className="flex gap-4 mt-8 animate-fade-slide-up" style={{ animationDelay: '0.2s' }}>
             <button
               onClick={() => setScreen('timer')}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border transition-all duration-300 hover:scale-[1.02] active:scale-95"
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border transition-all duration-[400ms] hover:scale-[1.02] active:scale-[0.96]"
               style={{ 
                 background: 'var(--surface-elevated)',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
                 border: '1px solid var(--border-subtle)',
                 color: 'var(--text-primary)',
-                boxShadow: 'var(--shadow-soft)'
+                boxShadow: 'var(--shadow-soft)',
+                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
-              <Clock className="w-5 h-5" />
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: '#E8A87C', strokeWidth: 1.8 }}>
+                <circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 6v6l4 2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
               <span className="font-medium">Minuteur</span>
             </button>
             <button
               onClick={() => setScreen('sounds')}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border transition-all duration-300 hover:scale-[1.02] active:scale-95"
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border transition-all duration-[400ms] hover:scale-[1.02] active:scale-[0.96]"
               style={{ 
                 background: 'var(--surface-elevated)',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
                 border: '1px solid var(--border-subtle)',
                 color: 'var(--text-primary)',
-                boxShadow: 'var(--shadow-soft)'
+                boxShadow: 'var(--shadow-soft)',
+                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
-              <Music className="w-5 h-5" />
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: '#E8A87C', strokeWidth: 1.8 }}>
+                <path d="M9 18V5l12-2v13M9 18c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zM21 16c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
               <span className="font-medium">Sons</span>
             </button>
           </div>
