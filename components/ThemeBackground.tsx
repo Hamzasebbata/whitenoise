@@ -24,19 +24,27 @@ export default function ThemeBackground({ soundId, isPlaying }: ThemeBackgroundP
   // Ne rendre les éléments que si le son est en lecture
   if (!isPlaying) return null;
 
-  // RAIN THEME
+  // RAIN THEME - Pluie Douce harmonisée
   if (currentTheme === 'rain') {
-    const raindrops = Array.from({ length: 25 }, (_, i) => ({
+    const raindrops = Array.from({ length: 35 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
-      height: 20 + Math.random() * 20,
-      duration: 2 + Math.random() * 2,
-      delay: Math.random() * 4,
-      opacity: 0.3 + Math.random() * 0.3
+      height: 15 + Math.random() * 25,
+      duration: 1.5 + Math.random() * 2.5,
+      delay: Math.random() * 5,
+      opacity: 0.2 + Math.random() * 0.4
     }));
 
     return (
-      <div className="fixed inset-0 pointer-events-none z-[1]">
+      <div className="fixed inset-0 pointer-events-none z-[1] overflow-hidden">
+        {/* Nuages doux en arrière-plan */}
+        <div className="rain-clouds">
+          <div className="rain-cloud cloud-1" />
+          <div className="rain-cloud cloud-2" />
+          <div className="rain-cloud cloud-3" />
+        </div>
+        
+        {/* Gouttes de pluie */}
         {raindrops.map((drop) => (
           <div
             key={drop.id}
@@ -50,6 +58,9 @@ export default function ThemeBackground({ soundId, isPlaying }: ThemeBackgroundP
             }}
           />
         ))}
+        
+        {/* Effet de brume au sol */}
+        <div className="rain-mist" />
       </div>
     );
   }

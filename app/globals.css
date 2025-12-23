@@ -20,6 +20,34 @@
   --shadow-medium: 0 16px 48px rgba(232, 168, 124, 0.1);
   --glow-peach: rgba(255, 232, 222, 0.5);
   --glow-sage: rgba(184, 201, 184, 0.4);
+  
+  /* Rain Theme Colors */
+  --rain-drop: rgba(184, 201, 184, 0.7);
+  --rain-cloud: rgba(184, 201, 184, 0.12);
+  --rain-mist: rgba(227, 237, 247, 0.15);
+}
+
+/* Thème Pluie Douce - Ajustements du fond */
+body[data-theme="rain"] {
+  background: linear-gradient(180deg, #F5F9F9 0%, #E3EDF7 50%, #D4E5E8 100%);
+  transition: background 1.2s ease-in-out;
+}
+
+/* Ajustements des particules pour le thème pluie */
+body[data-theme="rain"] .particle {
+  background: radial-gradient(circle, rgba(184, 201, 184, 0.5) 0%, transparent 70%);
+}
+
+body[data-theme="rain"] .decorative-shape.shape-1 {
+  background: rgba(227, 237, 247, 0.3);
+}
+
+body[data-theme="rain"] .decorative-shape.shape-2 {
+  background: rgba(184, 201, 184, 0.25);
+}
+
+body[data-theme="rain"] .decorative-shape.shape-3 {
+  background: rgba(227, 237, 247, 0.35);
 }
 
 @layer base {
@@ -246,16 +274,17 @@ html {
   transform: translateZ(0);
 }
 
-/* RAIN THEME */
+/* RAIN THEME - Pluie Douce harmonisée */
 .raindrop {
   position: absolute;
-  width: 2px;
-  background: linear-gradient(transparent, var(--accent-sky));
+  width: 1.5px;
+  background: linear-gradient(to bottom, transparent, rgba(184, 201, 184, 0.6), rgba(227, 237, 247, 0.8));
   pointer-events: none;
   opacity: 0;
   animation: raindrop-fall linear infinite;
   will-change: transform, opacity;
   transform: translateZ(0);
+  border-radius: 50%;
 }
 
 @keyframes raindrop-fall {
@@ -263,15 +292,90 @@ html {
     transform: translateY(-100px) translateZ(0);
     opacity: 0;
   }
-  10% {
-    opacity: 0.6;
+  5% {
+    opacity: 0.7;
   }
-  90% {
-    opacity: 0.4;
+  95% {
+    opacity: 0.5;
   }
   100% {
     transform: translateY(100vh) translateZ(0);
     opacity: 0;
+  }
+}
+
+/* Nuages doux */
+.rain-clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  pointer-events: none;
+}
+
+.rain-cloud {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(184, 201, 184, 0.15), transparent 70%);
+  filter: blur(40px);
+  animation: cloud-float 20s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.cloud-1 {
+  width: 300px;
+  height: 150px;
+  top: 5%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.cloud-2 {
+  width: 250px;
+  height: 120px;
+  top: 15%;
+  right: 15%;
+  animation-delay: 5s;
+}
+
+.cloud-3 {
+  width: 350px;
+  height: 180px;
+  top: 8%;
+  left: 50%;
+  animation-delay: 10s;
+}
+
+@keyframes cloud-float {
+  0%, 100% {
+    transform: translateX(0) translateY(0) translateZ(0);
+  }
+  50% {
+    transform: translateX(30px) translateY(-10px) translateZ(0);
+  }
+}
+
+/* Brume au sol */
+.rain-mist {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: linear-gradient(to top, rgba(227, 237, 247, 0.15), transparent);
+  pointer-events: none;
+  animation: mist-fade 8s ease-in-out infinite;
+  will-change: opacity;
+}
+
+@keyframes mist-fade {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
   }
 }
 

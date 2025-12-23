@@ -10,7 +10,7 @@ export const SOUNDS: Sound[] = [
   },
   {
     id: 'rain',
-    name: 'Pluie',
+    name: 'Pluie Douce',
     icon: '🌧️',
     audioUrl: '/sounds/rain.mp3',
     isPremium: false,

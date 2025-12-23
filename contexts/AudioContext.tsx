@@ -17,7 +17,9 @@ interface AudioContextType {
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
-  const [currentSound, setCurrentSound] = useState<Sound | null>(SOUNDS[0]); // Default to first free sound
+  // Default to "Pluie Douce" (rain sound)
+  const defaultSound = SOUNDS.find(s => s.id === 'rain') || SOUNDS[0];
+  const [currentSound, setCurrentSound] = useState<Sound | null>(defaultSound);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timerDuration, setTimerDuration] = useState<TimerDuration>(null);
   const [timerTimeout, setTimerTimeout] = useState<NodeJS.Timeout | null>(null);
