@@ -6,5 +6,5 @@ export interface Sound {
   isPremium: boolean;
 }
 
-export type TimerDuration = 15 | 30 | 60 | null; // null = infinite
+export type TimerDuration = 15 | 30 | 45 | 60 | 90 | 120 | null; // null = infinite
 

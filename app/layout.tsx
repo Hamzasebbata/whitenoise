@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AudioProvider } from "@/contexts/AudioContext";
-import BottomNav from "@/components/BottomNav";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,7 +25,6 @@ export default function RootLayout({
       >
         <AudioProvider>
           {children}
-          <BottomNav />
         </AudioProvider>
       </body>
     </html>
