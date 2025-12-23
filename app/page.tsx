@@ -11,7 +11,7 @@ type Screen = 'player' | 'timer' | 'sounds';
 export default function PlayerPage() {
   const { currentSound, isPlaying, togglePlayPause, timerDuration } = useAudio();
   const [screen, setScreen] = useState<Screen>('player');
-  const [progress, setProgress] = useState(35); // Progress en %
+  const [progress, setProgress] = useState(35);
   const [isDragging, setIsDragging] = useState(false);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
@@ -79,175 +79,112 @@ export default function PlayerPage() {
   return (
     <>
       {/* Theme Background dynamique */}
-      <ThemeBackground soundId={currentSound?.id || 'white-noise'} isPlaying={isPlaying} />
+      <ThemeBackground soundId={currentSound?.id || 'rain'} isPlaying={isPlaying} />
 
-      {/* Ambient Particles */}
-      <div className="ambient-particles">
-        <div className="particle"></div>
-        <div className="particle"></div>
-        <div className="particle"></div>
-        <div className="particle"></div>
-        <div className="particle"></div>
-        {/* Decorative Shapes */}
-        <div className="decorative-shape shape-1"></div>
-        <div className="decorative-shape shape-2"></div>
-        <div className="decorative-shape shape-3"></div>
-      </div>
+      <div className="app-container">
+        {/* Header */}
+        <header className="app-header">
+          <div className="logo">Lullaby</div>
+          <button className="icon-btn" aria-label="Settings">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="3" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M12 1v6m0 6v6M23 12h-6m-6 0H5" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </header>
 
-      <div className="min-h-screen flex items-center justify-center p-6 relative z-10">
-        <div className="w-full max-w-md">
-          {/* Main Player Card */}
+        {/* Visualisation audio HERO */}
+        <div className="audio-visual-hero">
+          <div className="visual-circle visual-circle-outer"></div>
+          <div className="visual-circle visual-circle-mid"></div>
           <div 
-            className="bg-[var(--surface)] backdrop-blur-[40px] rounded-[48px] p-12 pb-10 border border-[var(--border-subtle)] shadow-[var(--shadow-medium)] relative overflow-hidden animate-fade-scale-in"
-            style={{ WebkitBackdropFilter: 'blur(40px)' }}
+            className="visual-circle visual-circle-inner"
+            onClick={togglePlayPause}
           >
-            {/* Audio Visualization */}
-            <div className="relative w-[200px] h-[200px] mx-auto mb-10">
-              {/* Outer glow ring */}
-              <div
-                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full ${
-                  isPlaying ? 'animate-[pulse-glow_3s_cubic-bezier(0.4,0,0.6,1)_infinite]' : ''
-                }`}
-                style={{ 
-                  background: 'radial-gradient(circle, var(--glow-peach), transparent 70%)',
-                  opacity: 0.5 
-                }}
-              />
-              
-              {/* Mid ring */}
-              <div
-                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160px] h-[160px] rounded-full ${
-                  isPlaying ? 'animate-[pulse-glow_3s_cubic-bezier(0.4,0,0.6,1)_infinite_0.5s]' : ''
-                }`}
-                style={{ 
-                  background: 'linear-gradient(135deg, var(--accent-peach-deep) 0%, var(--accent-sage) 100%)',
-                  opacity: 0.2 
-                }}
-              />
-
-              {/* Inner circle with button */}
-              <button
-                onClick={togglePlayPause}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[120px] rounded-full bg-white flex items-center justify-center z-10 transition-all duration-[400ms] hover:scale-105 active:scale-[0.92]"
-                style={{ 
-                  boxShadow: '0 0 40px var(--glow-sage), inset 0 0 30px rgba(255, 232, 222, 0.15)',
-                  transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
-                }}
-              >
-                <svg 
-                  width="48" 
-                  height="48" 
-                  viewBox="0 0 24 24" 
-                  fill="none"
-                  className="play-icon"
-                  style={{ 
-                    filter: 'drop-shadow(0 2px 8px rgba(212, 145, 106, 0.2))'
-                  }}
-                >
-                  {isPlaying ? (
-                    <>
-                      <rect x="6" y="4" width="4" height="16" rx="1" fill="#D4916A"/>
-                      <rect x="14" y="4" width="4" height="16" rx="1" fill="#D4916A"/>
-                    </>
-                  ) : (
-                    <path d="M8 5v14l11-7z" fill="#D4916A"/>
-                  )}
-                </svg>
-              </button>
-            </div>
-
-            {/* Sound Info */}
-            <div className="text-center mb-10">
-              <p className="text-sm mb-2" style={{ color: 'var(--text-secondary)' }}>
-                En cours de lecture
-              </p>
-              <h1 className="text-3xl font-semibold mb-2" style={{ 
-                color: 'var(--text-primary)',
-                fontFamily: "'Quicksand', cursive",
-                letterSpacing: '-0.3px'
-              }}>
-                {currentSound?.name || 'Aucun son'}
-              </h1>
-              {timerDuration && (
-                <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
-                  Minuteur : {timerDuration} min
-                </p>
+            <svg className="play-icon" viewBox="0 0 24 24">
+              {isPlaying ? (
+                <>
+                  <rect x="6" y="4" width="4" height="16" rx="1"/>
+                  <rect x="14" y="4" width="4" height="16" rx="1"/>
+                </>
+              ) : (
+                <path d="M8 5v14l11-7z"/>
               )}
-            </div>
-
-            {/* Time Controls - Draggable Progress Bar */}
-            <div className="flex items-center gap-4">
-              <span className="text-sm min-w-[42px] font-mono" style={{ color: 'var(--text-tertiary)' }}>
-                12:34
-              </span>
-              <div 
-                ref={progressBarRef}
-                className="flex-1 h-[6px] rounded-full relative overflow-visible progress-bar-container cursor-pointer"
-                style={{ background: 'var(--border-subtle)' }}
-                onMouseDown={handleMouseDown}
-                onTouchStart={handleTouchStart}
-              >
-                <div 
-                  className="h-full rounded-full relative transition-all duration-100"
-                  style={{ 
-                    background: 'linear-gradient(90deg, var(--accent-terracotta) 0%, var(--accent-peach-deep) 100%)',
-                    width: `${progress}%`,
-                    transitionProperty: isDragging ? 'none' : 'width'
-                  }}
-                >
-                  <div 
-                    className={`progress-handle ${isDragging ? 'dragging' : ''}`}
-                  />
-                </div>
-              </div>
-              <span className="text-sm min-w-[42px] font-mono text-right" style={{ color: 'var(--text-tertiary)' }}>
-                35:00
-              </span>
-            </div>
-          </div>
-
-          {/* Bottom Controls */}
-          <div className="flex gap-4 mt-8 animate-fade-slide-up" style={{ animationDelay: '0.2s' }}>
-            <button
-              onClick={() => setScreen('timer')}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border transition-all duration-[400ms] hover:scale-[1.02] active:scale-[0.96]"
-              style={{ 
-                background: 'var(--surface-elevated)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1px solid var(--border-subtle)',
-                color: 'var(--text-primary)',
-                boxShadow: 'var(--shadow-soft)',
-                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: '#E8A87C', strokeWidth: 1.8 }}>
-                <circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 6v6l4 2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span className="font-medium">Minuteur</span>
-            </button>
-            <button
-              onClick={() => setScreen('sounds')}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border transition-all duration-[400ms] hover:scale-[1.02] active:scale-[0.96]"
-              style={{ 
-                background: 'var(--surface-elevated)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1px solid var(--border-subtle)',
-                color: 'var(--text-primary)',
-                boxShadow: 'var(--shadow-soft)',
-                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: '#E8A87C', strokeWidth: 1.8 }}>
-                <path d="M9 18V5l12-2v13M9 18c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zM21 16c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span className="font-medium">Sons</span>
-            </button>
+            </svg>
           </div>
         </div>
+
+        {/* Info du son */}
+        <div className="sound-info">
+          <div className="sound-status">En cours de lecture</div>
+          <h1 className="sound-title">{currentSound?.name || 'Pluie Douce'}</h1>
+          <p className="sound-subtitle">Averse apaisante</p>
+        </div>
+
+        {/* Contrôles compacts */}
+        <div className="player-compact">
+          <div className="time-controls">
+            <span className="time-display">12:34</span>
+            <div 
+              ref={progressBarRef}
+              className="progress-bar"
+              onMouseDown={handleMouseDown}
+              onTouchStart={handleTouchStart}
+            >
+              <div 
+                className="progress-fill"
+                style={{ width: `${progress}%` }}
+              >
+                <div className={`progress-handle ${isDragging ? 'dragging' : ''}`}></div>
+              </div>
+            </div>
+            <span className="time-display">35:00</span>
+          </div>
+        </div>
+
+        {/* Boutons d'action */}
+        <div className="action-buttons">
+          <button className="action-btn" onClick={() => setScreen('timer')}>
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M12 6v6l4 2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>Minuteur</span>
+          </button>
+          <button className="action-btn" onClick={() => setScreen('sounds')}>
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 18V5l12-2v13M9 18c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-2c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>Sons</span>
+          </button>
+        </div>
       </div>
+
+      {/* Bottom Nav */}
+      <nav className="bottom-nav">
+        <div className="nav-item active">
+          <svg className="nav-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span className="nav-label">Home</span>
+        </div>
+        <div className="nav-item">
+          <svg className="nav-icon" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="7" height="7" rx="2" strokeWidth="2"/>
+            <rect x="14" y="3" width="7" height="7" rx="2" strokeWidth="2"/>
+            <rect x="14" y="14" width="7" height="7" rx="2" strokeWidth="2"/>
+            <rect x="3" y="14" width="7" height="7" rx="2" strokeWidth="2"/>
+          </svg>
+          <span className="nav-label">Library</span>
+        </div>
+        <div className="nav-item">
+          <svg className="nav-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" strokeWidth="2" strokeLinecap="round"/>
+            <circle cx="12" cy="7" r="4" strokeWidth="2"/>
+          </svg>
+          <span className="nav-label">Profile</span>
+        </div>
+      </nav>
     </>
   );
 }

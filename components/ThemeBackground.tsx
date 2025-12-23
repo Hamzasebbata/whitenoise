@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import RainTheme from './RainTheme';
 
 interface ThemeBackgroundProps {
   soundId: string;
@@ -24,45 +25,9 @@ export default function ThemeBackground({ soundId, isPlaying }: ThemeBackgroundP
   // Ne rendre les éléments que si le son est en lecture
   if (!isPlaying) return null;
 
-  // RAIN THEME - Pluie Douce harmonisée
+  // RAIN THEME - Pluie Douce avec nuages réalistes
   if (currentTheme === 'rain') {
-    const raindrops = Array.from({ length: 35 }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      height: 15 + Math.random() * 25,
-      duration: 1.5 + Math.random() * 2.5,
-      delay: Math.random() * 5,
-      opacity: 0.2 + Math.random() * 0.4
-    }));
-
-    return (
-      <div className="fixed inset-0 pointer-events-none z-[1] overflow-hidden">
-        {/* Nuages doux en arrière-plan */}
-        <div className="rain-clouds">
-          <div className="rain-cloud cloud-1" />
-          <div className="rain-cloud cloud-2" />
-          <div className="rain-cloud cloud-3" />
-        </div>
-        
-        {/* Gouttes de pluie */}
-        {raindrops.map((drop) => (
-          <div
-            key={drop.id}
-            className="raindrop theme-element"
-            style={{
-              left: `${drop.left}%`,
-              height: `${drop.height}px`,
-              animationDuration: `${drop.duration}s`,
-              animationDelay: `${drop.delay}s`,
-              opacity: drop.opacity
-            }}
-          />
-        ))}
-        
-        {/* Effet de brume au sol */}
-        <div className="rain-mist" />
-      </div>
-    );
+    return <RainTheme />;
   }
 
   // HEARTBEAT THEME
