@@ -61,17 +61,17 @@
 
 @keyframes float-particle {
   0% { 
-    transform: translateY(100vh) scale(0.8);
+    transform: translateY(100vh) scale(0.8) translateZ(0);
     opacity: 0;
   }
-  10% { opacity: 0.4; }
+  10% { opacity: 0.5; }
   50% { 
-    transform: translateY(-20vh) translateX(30px) scale(1.2);
-    opacity: 0.6;
+    transform: translateY(-50vh) translateX(30px) scale(1.2) translateZ(0);
+    opacity: 0.7;
   }
-  90% { opacity: 0.3; }
+  90% { opacity: 0.4; }
   100% { 
-    transform: translateY(-100vh) scale(0.8);
+    transform: translateY(-100vh) scale(0.8) translateZ(0);
     opacity: 0;
   }
 }
@@ -113,39 +113,42 @@
 }
 
 @keyframes float-shape {
-  0%, 100% { 
-    transform: translateY(0) rotate(0deg);
+  0% { 
+    transform: translateY(0) rotate(0deg) translateZ(0);
   }
   50% { 
-    transform: translateY(-30px) rotate(180deg);
+    transform: translateY(-60px) rotate(180deg) translateZ(0);
+  }
+  100% { 
+    transform: translateY(0) rotate(360deg) translateZ(0);
   }
 }
 
-/* Breathing animation - Ultra smooth */
+/* Breathing animation - Plus dynamique */
 @keyframes breathe {
   0%, 100% {
     transform: scale(1);
-    opacity: 0.15;
+    opacity: 0.6;
   }
   50% {
-    transform: scale(1.05);
-    opacity: 0.5;
+    transform: scale(1.15);
+    opacity: 0.8;
   }
 }
 
 .breathe {
-  animation: breathe 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: breathe 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Pulse Glow - Ultra smooth */
+/* Pulse Glow - Plus prononcé */
 @keyframes pulse-glow {
   0%, 100% { 
     transform: translate(-50%, -50%) scale(1); 
-    opacity: 0.15; 
+    opacity: 0.6; 
   }
   50% { 
-    transform: translate(-50%, -50%) scale(1.08); 
-    opacity: 0.5; 
+    transform: translate(-50%, -50%) scale(1.15); 
+    opacity: 0.8; 
   }
 }
 
@@ -231,5 +234,194 @@ html {
 *:focus-visible {
   outline: 2px solid var(--accent-sage);
   outline-offset: 4px;
+}
+
+/* ============================================
+   THÈMES DYNAMIQUES PAR SON
+   ============================================ */
+
+/* Optimisations GPU */
+.theme-element {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* RAIN THEME */
+.raindrop {
+  position: absolute;
+  width: 2px;
+  background: linear-gradient(transparent, var(--accent-sky));
+  pointer-events: none;
+  opacity: 0;
+  animation: raindrop-fall linear infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+@keyframes raindrop-fall {
+  0% {
+    transform: translateY(-100px) translateZ(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(100vh) translateZ(0);
+    opacity: 0;
+  }
+}
+
+/* HEARTBEAT THEME */
+.heartbeat-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 203, 184, 0.4), transparent 70%);
+  transform: translate(-50%, -50%) scale(1) translateZ(0);
+  animation: heartbeat-pulse 1s ease-in-out infinite;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@keyframes heartbeat-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1) translateZ(0);
+    opacity: 0.6;
+  }
+  15% {
+    transform: translate(-50%, -50%) scale(1.3) translateZ(0);
+    opacity: 0.9;
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(1) translateZ(0);
+    opacity: 0.6;
+  }
+  45% {
+    transform: translate(-50%, -50%) scale(1.3) translateZ(0);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(1) translateZ(0);
+    opacity: 0.6;
+  }
+}
+
+/* WIND CHIMES THEME */
+.wind-chime {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: wind-chime-swing 4s ease-in-out infinite;
+  transform-origin: top center;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@keyframes wind-chime-swing {
+  0%, 100% {
+    transform: rotate(-15deg) translateZ(0);
+  }
+  50% {
+    transform: rotate(15deg) translateZ(0);
+  }
+}
+
+/* MOONLIGHT THEME */
+.star-twinkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: white;
+  pointer-events: none;
+  animation: star-twinkle ease-in-out infinite;
+  will-change: opacity;
+}
+
+@keyframes star-twinkle {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* OCEAN WAVES THEME */
+.ocean-wave {
+  position: absolute;
+  width: 200%;
+  height: 100px;
+  bottom: 0;
+  left: -50%;
+  pointer-events: none;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.ocean-wave path {
+  animation: ocean-wave-move 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes ocean-wave-move {
+  0%, 100% {
+    transform: translateX(0) scaleY(1) translateZ(0);
+  }
+  50% {
+    transform: translateX(50px) scaleY(1.1) translateZ(0);
+  }
+}
+
+/* Transition entre thèmes */
+body[data-theme] .theme-element {
+  animation-play-state: running;
+  transition: opacity 0.8s ease-in-out;
+}
+
+body[data-theme-transitioning] .theme-element {
+  opacity: 0;
+}
+
+/* Progress bar draggable */
+.progress-handle {
+  position: absolute;
+  right: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(74, 69, 64, 0.15);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.progress-handle:hover,
+.progress-handle.dragging {
+  transform: translateY(-50%) scale(1.2);
+}
+
+.progress-bar-container {
+  cursor: pointer;
+  position: relative;
+}
+
+/* Play/Pause smooth transition */
+.play-icon {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
+  will-change: transform;
 }
 

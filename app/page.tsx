@@ -1,15 +1,72 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAudio } from '@/contexts/AudioContext';
 import TimerScreen from '@/components/TimerScreen';
 import SoundsScreen from '@/components/SoundsScreen';
+import ThemeBackground from '@/components/ThemeBackground';
 
 type Screen = 'player' | 'timer' | 'sounds';
 
 export default function PlayerPage() {
   const { currentSound, isPlaying, togglePlayPause, timerDuration } = useAudio();
   const [screen, setScreen] = useState<Screen>('player');
+  const [progress, setProgress] = useState(35); // Progress en %
+  const [isDragging, setIsDragging] = useState(false);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+
+  // Gestion du drag sur la progress bar
+  const handleProgressDrag = (clientX: number) => {
+    if (!progressBarRef.current) return;
+    
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    setProgress(percentage);
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    handleProgressDrag(e.clientX);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    handleProgressDrag(e.touches[0].clientX);
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (isDragging) {
+        handleProgressDrag(e.clientX);
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isDragging) {
+        e.preventDefault();
+        handleProgressDrag(e.touches[0].clientX);
+      }
+    };
+
+    const handleEnd = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleEnd);
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
+      document.addEventListener('touchend', handleEnd);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleEnd);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleEnd);
+    };
+  }, [isDragging]);
 
   if (screen === 'timer') {
     return <TimerScreen onBack={() => setScreen('player')} />;
@@ -21,6 +78,9 @@ export default function PlayerPage() {
 
   return (
     <>
+      {/* Theme Background dynamique */}
+      <ThemeBackground soundId={currentSound?.id || 'white-noise'} isPlaying={isPlaying} />
+
       {/* Ambient Particles */}
       <div className="ambient-particles">
         <div className="particle"></div>
@@ -46,7 +106,7 @@ export default function PlayerPage() {
               {/* Outer glow ring */}
               <div
                 className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full ${
-                  isPlaying ? 'animate-[pulse-glow_4s_cubic-bezier(0.4,0,0.6,1)_infinite]' : ''
+                  isPlaying ? 'animate-[pulse-glow_3s_cubic-bezier(0.4,0,0.6,1)_infinite]' : ''
                 }`}
                 style={{ 
                   background: 'radial-gradient(circle, var(--glow-peach), transparent 70%)',
@@ -57,7 +117,7 @@ export default function PlayerPage() {
               {/* Mid ring */}
               <div
                 className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160px] h-[160px] rounded-full ${
-                  isPlaying ? 'animate-[pulse-glow_4s_cubic-bezier(0.4,0,0.6,1)_infinite_0.5s]' : ''
+                  isPlaying ? 'animate-[pulse-glow_3s_cubic-bezier(0.4,0,0.6,1)_infinite_0.5s]' : ''
                 }`}
                 style={{ 
                   background: 'linear-gradient(135deg, var(--accent-peach-deep) 0%, var(--accent-sage) 100%)',
@@ -74,34 +134,25 @@ export default function PlayerPage() {
                   transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
               >
-                {isPlaying ? (
-                  <svg 
-                    width="48" 
-                    height="48" 
-                    viewBox="0 0 24 24" 
-                    fill="none"
-                    style={{ 
-                      filter: 'drop-shadow(0 2px 8px rgba(212, 145, 106, 0.2))',
-                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
-                  >
-                    <rect x="6" y="4" width="4" height="16" rx="1" fill="#D4916A"/>
-                    <rect x="14" y="4" width="4" height="16" rx="1" fill="#D4916A"/>
-                  </svg>
-                ) : (
-                  <svg 
-                    width="48" 
-                    height="48" 
-                    viewBox="0 0 24 24" 
-                    fill="none"
-                    style={{ 
-                      filter: 'drop-shadow(0 2px 8px rgba(212, 145, 106, 0.2))',
-                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
-                  >
+                <svg 
+                  width="48" 
+                  height="48" 
+                  viewBox="0 0 24 24" 
+                  fill="none"
+                  className="play-icon"
+                  style={{ 
+                    filter: 'drop-shadow(0 2px 8px rgba(212, 145, 106, 0.2))'
+                  }}
+                >
+                  {isPlaying ? (
+                    <>
+                      <rect x="6" y="4" width="4" height="16" rx="1" fill="#D4916A"/>
+                      <rect x="14" y="4" width="4" height="16" rx="1" fill="#D4916A"/>
+                    </>
+                  ) : (
                     <path d="M8 5v14l11-7z" fill="#D4916A"/>
-                  </svg>
-                )}
+                  )}
+                </svg>
               </button>
             </div>
 
@@ -124,50 +175,34 @@ export default function PlayerPage() {
               )}
             </div>
 
-            {/* Time Controls */}
-            <div className="flex items-center gap-4 mb-6">
+            {/* Time Controls - Draggable Progress Bar */}
+            <div className="flex items-center gap-4">
               <span className="text-sm min-w-[42px] font-mono" style={{ color: 'var(--text-tertiary)' }}>
                 12:34
               </span>
-              <div className="flex-1 h-[6px] rounded-full relative overflow-hidden" style={{ background: 'var(--border-subtle)' }}>
+              <div 
+                ref={progressBarRef}
+                className="flex-1 h-[6px] rounded-full relative overflow-visible progress-bar-container cursor-pointer"
+                style={{ background: 'var(--border-subtle)' }}
+                onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchStart}
+              >
                 <div 
-                  className="h-full rounded-full relative transition-all duration-300"
+                  className="h-full rounded-full relative transition-all duration-100"
                   style={{ 
                     background: 'linear-gradient(90deg, var(--accent-terracotta) 0%, var(--accent-peach-deep) 100%)',
-                    width: '35%'
+                    width: `${progress}%`,
+                    transitionProperty: isDragging ? 'none' : 'width'
                   }}
                 >
                   <div 
-                    className="absolute right-0 top-1/2 -translate-y-1/2 w-[14px] h-[14px] bg-white rounded-full"
-                    style={{ boxShadow: '0 2px 8px rgba(74, 69, 64, 0.15)' }}
+                    className={`progress-handle ${isDragging ? 'dragging' : ''}`}
                   />
                 </div>
               </div>
               <span className="text-sm min-w-[42px] font-mono text-right" style={{ color: 'var(--text-tertiary)' }}>
                 35:00
               </span>
-            </div>
-
-            {/* Volume Control */}
-            <div className="flex items-center gap-5 pt-4">
-              <svg 
-                width="20" 
-                height="20" 
-                viewBox="0 0 24 24" 
-                fill="none"
-                style={{ stroke: 'var(--text-tertiary)', strokeWidth: 1.8 }}
-              >
-                <path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <div className="flex-1 h-[6px] rounded-full relative" style={{ background: 'var(--border-subtle)' }}>
-                <div 
-                  className="h-full rounded-full transition-all duration-300"
-                  style={{ 
-                    background: 'linear-gradient(90deg, var(--accent-sage-deep) 0%, var(--accent-sage) 100%)',
-                    width: '65%'
-                  }}
-                />
-              </div>
             </div>
           </div>
 
