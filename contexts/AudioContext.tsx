@@ -42,7 +42,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         // Si le son n'a jamais été joué, on le lance avec play()
         // Sinon on reprend avec resume()
         const currentHowl = audioManager.getCurrentHowl();
-        if (!currentHowl || currentHowl.state() === 'unloaded') {
+        const isCurrentSoundLoaded = currentHowl && audioManager.getCurrentSoundId() === currentSound.id;
+        
+        if (!isCurrentSoundLoaded) {
           audioManager.play(currentSound.audioUrl, currentSound.id);
         } else {
           audioManager.resume();
