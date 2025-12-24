@@ -5,7 +5,7 @@ export const SOUNDS: Sound[] = [
     id: 'white-noise',
     name: 'Bruit Blanc',
     icon: '🌫️',
-    audioUrl: '/sounds/white-noise.mp3',
+    audioUrl: '/sounds/white-noise.wav',
     isPremium: false,
     description: 'Son apaisant continu',
   },
