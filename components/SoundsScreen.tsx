@@ -54,6 +54,11 @@ export default function SoundsScreen({ onBack }: SoundsScreenProps) {
   const { currentSound, playSound } = useAudio();
 
   const handleSoundSelect = (sound: typeof SOUNDS[0]) => {
+    // Empêcher la lecture des sons premium
+    if (sound.isPremium) {
+      alert('🔒 Ce son est réservé aux membres Premium.\n\nMettez à niveau votre compte pour accéder à tous les sons !');
+      return;
+    }
     playSound(sound);
     onBack();
   };
@@ -140,7 +145,13 @@ export default function SoundsScreen({ onBack }: SoundsScreenProps) {
                       {sound.isPremium ? 'Son premium' : 'Son gratuit'}
                     </p>
                   </div>
-                  {isSelected && (
+                  {sound.isPremium ? (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: 'var(--text-tertiary)', strokeWidth: 1.8 }}>
+                      <rect x="5" y="11" width="14" height="10" rx="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M12 15v2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M7 11V7a5 5 0 0110 0v4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  ) : isSelected && (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: 'var(--accent-terracotta)', strokeWidth: 1.8 }}>
                       <path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>

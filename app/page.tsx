@@ -46,13 +46,7 @@ export default function PlayerPage() {
         {/* Header */}
         <header className="app-header">
           <div className="logo-container">
-            <div className="logo-wrapper">
-              <img src="/logo.png" alt="Lullaway Logo" className="logo-image" />
-              <div className="logo-text">
-                <h1 className="logo-title">Lullaway</h1>
-                <p className="logo-subtitle">By Digital Tools Factory</p>
-              </div>
-            </div>
+            <img src="/logo.png" alt="Lullaway Logo" className="logo-image" />
           </div>
           <button className="icon-btn" aria-label="Settings">
             <svg viewBox="0 0 24 24" fill="none">
