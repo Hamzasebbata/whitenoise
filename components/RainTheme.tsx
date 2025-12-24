@@ -2,7 +2,11 @@
 
 import { useEffect, useRef } from 'react';
 
-export default function RainTheme() {
+interface RainThemeProps {
+  isPlaying: boolean;
+}
+
+export default function RainTheme({ isPlaying }: RainThemeProps) {
   const rainContainerRef = useRef<HTMLDivElement>(null);
   const numberOfDrops = 100;
   const splashChance = 0.3;
@@ -75,13 +79,15 @@ export default function RainTheme() {
       }
     }
 
-    createRaindrops();
+    if (isPlaying) {
+      createRaindrops();
+    }
 
     // Cleanup
     return () => {
       drops.forEach(drop => drop.remove());
     };
-  }, []);
+  }, [isPlaying]);
 
   return (
     <div ref={rainContainerRef} className="fixed inset-0 pointer-events-none z-[1] overflow-hidden">
