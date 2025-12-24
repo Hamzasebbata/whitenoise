@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito, Quicksand } from "next/font/google";
 import "./globals.css";
 import { AudioProvider } from "@/contexts/AudioContext";
+import { Analytics } from "@vercel/analytics/react";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -18,7 +19,7 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "Lullaby - Sons apaisants pour bébés",
+  title: "Lullaway - Sons apaisants pour bébés",
   description: "Aidez votre bébé à s'endormir paisiblement avec des bruits blancs et sons apaisants",
 };
 
@@ -35,6 +36,7 @@ export default function RootLayout({
         <AudioProvider>
           {children}
         </AudioProvider>
+        <Analytics />
       </body>
     </html>
   );
