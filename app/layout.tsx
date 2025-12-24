@@ -3,6 +3,7 @@ import { Nunito, Quicksand } from "next/font/google";
 import "./globals.css";
 import { AudioProvider } from "@/contexts/AudioContext";
 import { Analytics } from "@vercel/analytics/react";
+import JsonLdSchema from "@/components/JsonLdSchema";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -76,6 +77,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
+      <head>
+        <JsonLdSchema />
+      </head>
       <body
         className={`${nunito.variable} ${quicksand.variable} antialiased font-sans`}
       >
