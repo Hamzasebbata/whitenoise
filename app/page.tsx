@@ -48,12 +48,6 @@ export default function PlayerPage() {
           <div className="logo-container">
             <img src="/Lullaway-2.png" alt="Lullaway Logo" className="logo-image" />
           </div>
-          <button className="icon-btn" aria-label="Settings">
-            <svg viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="3" strokeWidth="2" strokeLinecap="round"/>
-              <path d="M12 1v6m0 6v6M23 12h-6m-6 0H5" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </button>
         </header>
 
         {/* Visualisation audio HERO */}

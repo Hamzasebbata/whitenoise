@@ -88,22 +88,24 @@ body[data-theme="hairdryer"] {
 .app-header {
   padding: 20px 0 40px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   animation: fade-slide-down 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Logo Container */
 .logo-container {
-  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo-image {
-  height: 48px;
+  height: 80px;
   width: auto;
   object-fit: contain;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  filter: drop-shadow(0 2px 8px rgba(232, 168, 124, 0.15));
+  filter: drop-shadow(0 4px 12px rgba(232, 168, 124, 0.2));
 }
 
 .logo-image:hover {
