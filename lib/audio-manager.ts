@@ -54,6 +54,10 @@ class AudioManager {
   getCurrentSoundId(): string | null {
     return this.currentSoundId;
   }
+
+  getCurrentHowl(): Howl | null {
+    return this.currentSound;
+  }
 }
 
 // Singleton instance

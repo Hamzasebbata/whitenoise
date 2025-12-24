@@ -39,7 +39,14 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       setIsPlaying(false);
     } else {
       if (currentSound) {
-        audioManager.resume();
+        // Si le son n'a jamais été joué, on le lance avec play()
+        // Sinon on reprend avec resume()
+        const currentHowl = audioManager.getCurrentHowl();
+        if (!currentHowl || currentHowl.state() === 'unloaded') {
+          audioManager.play(currentSound.audioUrl, currentSound.id);
+        } else {
+          audioManager.resume();
+        }
         setIsPlaying(true);
       }
     }
