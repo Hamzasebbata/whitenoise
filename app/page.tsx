@@ -5,6 +5,7 @@ import { useAudio } from '@/contexts/AudioContext';
 import TimerScreen from '@/components/TimerScreen';
 import SoundsScreen from '@/components/SoundsScreen';
 import ThemeBackground from '@/components/ThemeBackground';
+import SeoContent from '@/components/SeoContent';
 
 type Screen = 'player' | 'timer' | 'sounds';
 
@@ -111,6 +112,9 @@ export default function PlayerPage() {
             <span>Profile</span>
           </button>
         </div>
+
+        {/* Contenu SEO */}
+        <SeoContent />
       </div>
     </>
   );
