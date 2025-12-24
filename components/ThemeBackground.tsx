@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import RainTheme from './RainTheme';
+import HeartbeatTheme from './HeartbeatTheme';
 
 interface ThemeBackgroundProps {
   soundId: string;
@@ -27,20 +28,12 @@ export default function ThemeBackground({ soundId, isPlaying }: ThemeBackgroundP
 
   // RAIN THEME - Pluie Douce avec nuages réalistes
   if (currentTheme === 'rain') {
-    return <RainTheme />;
+    return <RainTheme isPlaying={isPlaying} />;
   }
 
-  // HEARTBEAT THEME
+  // HEARTBEAT THEME - Battements de Cœur avec environnement utérin
   if (currentTheme === 'heartbeat') {
-    return (
-      <div className="fixed inset-0 pointer-events-none z-[1]">
-        <div className="heartbeat-pulse theme-element" />
-        <div 
-          className="heartbeat-pulse theme-element" 
-          style={{ animationDelay: '0.5s', opacity: 0.5 }}
-        />
-      </div>
-    );
+    return <HeartbeatTheme isPlaying={isPlaying} />;
   }
 
   // WIND CHIMES THEME

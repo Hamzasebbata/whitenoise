@@ -31,10 +31,10 @@ export const SOUNDS: Sound[] = [
   },
   {
     id: 'heartbeat',
-    name: 'Battements de cœur',
+    name: 'Battements de Cœur',
     icon: '💗',
-    audioUrl: '/sounds/heartbeat.mp3',
-    isPremium: true,
+    audioUrl: '/sounds/Battements de coeur.wav',
+    isPremium: false,
   },
   {
     id: 'wind',
