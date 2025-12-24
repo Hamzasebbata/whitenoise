@@ -9,64 +9,25 @@ import ThemeBackground from '@/components/ThemeBackground';
 type Screen = 'player' | 'timer' | 'sounds';
 
 export default function PlayerPage() {
-  const { currentSound, isPlaying, togglePlayPause, timerDuration } = useAudio();
+  const { currentSound, isPlaying, togglePlayPause, timerDuration, timeElapsed } = useAudio();
   const [screen, setScreen] = useState<Screen>('player');
-  const [progress, setProgress] = useState(35);
-  const [isDragging, setIsDragging] = useState(false);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
-  // Gestion du drag sur la progress bar
-  const handleProgressDrag = (clientX: number) => {
-    if (!progressBarRef.current) return;
-    
-    const rect = progressBarRef.current.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setProgress(percentage);
+  // Calculer le pourcentage de progression basé sur le timer
+  const progressPercentage = timerDuration 
+    ? Math.min(100, (timeElapsed / (timerDuration * 60)) * 100)
+    : 0;
+
+  // Formater le temps restant
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    handleProgressDrag(e.clientX);
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setIsDragging(true);
-    handleProgressDrag(e.touches[0].clientX);
-  };
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (isDragging) {
-        handleProgressDrag(e.clientX);
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (isDragging) {
-        e.preventDefault();
-        handleProgressDrag(e.touches[0].clientX);
-      }
-    };
-
-    const handleEnd = () => {
-      setIsDragging(false);
-    };
-
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleEnd);
-      document.addEventListener('touchmove', handleTouchMove, { passive: false });
-      document.addEventListener('touchend', handleEnd);
-    }
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleEnd);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', handleEnd);
-    };
-  }, [isDragging]);
+  const timeRemaining = timerDuration 
+    ? Math.max(0, (timerDuration * 60) - timeElapsed)
+    : 0;
 
   if (screen === 'timer') {
     return <TimerScreen onBack={() => setScreen('player')} />;
@@ -121,26 +82,15 @@ export default function PlayerPage() {
           <p className="sound-subtitle">Averse apaisante</p>
         </div>
 
-        {/* Contrôles compacts */}
-        <div className="player-compact">
-          <div className="time-controls">
-            <span className="time-display">12:34</span>
-            <div 
-              ref={progressBarRef}
-              className="progress-bar"
-              onMouseDown={handleMouseDown}
-              onTouchStart={handleTouchStart}
-            >
-              <div 
-                className="progress-fill"
-                style={{ width: `${progress}%` }}
-              >
-                <div className={`progress-handle ${isDragging ? 'dragging' : ''}`}></div>
-              </div>
+        {/* Contrôles compacts - Slider discret */}
+        {timerDuration && (
+          <div className="player-compact-minimal">
+            <div className="progress-bar-minimal" ref={progressBarRef}>
+              <div className="progress-fill-minimal" style={{ width: `${progressPercentage}%` }}></div>
             </div>
-            <span className="time-display">35:00</span>
+            <span className="time-remaining-minimal">{formatTime(timeRemaining)}</span>
           </div>
-        </div>
+        )}
 
         {/* Boutons d'action */}
         <div className="action-buttons">
@@ -157,34 +107,15 @@ export default function PlayerPage() {
             </svg>
             <span>Sons</span>
           </button>
+          <button className="action-btn">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="12" cy="7" r="4" strokeWidth="2"/>
+            </svg>
+            <span>Profile</span>
+          </button>
         </div>
       </div>
-
-      {/* Bottom Nav */}
-      <nav className="bottom-nav">
-        <div className="nav-item active">
-          <svg className="nav-icon" viewBox="0 0 24 24" fill="none">
-            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <span className="nav-label">Home</span>
-        </div>
-        <div className="nav-item">
-          <svg className="nav-icon" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="3" width="7" height="7" rx="2" strokeWidth="2"/>
-            <rect x="14" y="3" width="7" height="7" rx="2" strokeWidth="2"/>
-            <rect x="14" y="14" width="7" height="7" rx="2" strokeWidth="2"/>
-            <rect x="3" y="14" width="7" height="7" rx="2" strokeWidth="2"/>
-          </svg>
-          <span className="nav-label">Library</span>
-        </div>
-        <div className="nav-item">
-          <svg className="nav-icon" viewBox="0 0 24 24" fill="none">
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" strokeWidth="2" strokeLinecap="round"/>
-            <circle cx="12" cy="7" r="4" strokeWidth="2"/>
-          </svg>
-          <span className="nav-label">Profile</span>
-        </div>
-      </nav>
     </>
   );
 }

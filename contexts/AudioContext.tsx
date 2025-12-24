@@ -9,6 +9,7 @@ interface AudioContextType {
   currentSound: Sound | null;
   isPlaying: boolean;
   timerDuration: TimerDuration;
+  timeElapsed: number; // en secondes
   playSound: (sound: Sound) => void;
   togglePlayPause: () => void;
   setTimer: (duration: TimerDuration) => void;
@@ -23,6 +24,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [timerDuration, setTimerDuration] = useState<TimerDuration>(null);
   const [timerTimeout, setTimerTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [timeElapsed, setTimeElapsed] = useState(0); // en secondes
+  const [timerInterval, setTimerInterval] = useState<NodeJS.Timeout | null>(null);
 
   const playSound = useCallback((sound: Sound) => {
     audioManager.play(sound.audioUrl, sound.id);
@@ -43,25 +46,39 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   }, [isPlaying, currentSound]);
 
   const setTimer = useCallback((duration: TimerDuration) => {
-    // Clear existing timer
+    // Clear existing timer and interval
     if (timerTimeout) {
       clearTimeout(timerTimeout);
       setTimerTimeout(null);
     }
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      setTimerInterval(null);
+    }
 
     setTimerDuration(duration);
+    setTimeElapsed(0);
 
     // Set new timer if not infinite
     if (duration !== null) {
+      // Update elapsed time every second
+      const interval = setInterval(() => {
+        setTimeElapsed(prev => prev + 1);
+      }, 1000);
+      setTimerInterval(interval);
+
+      // Stop after duration
       const timeout = setTimeout(() => {
         audioManager.pause();
         setIsPlaying(false);
         setTimerDuration(null);
-      }, duration * 60 * 1000); // Convert minutes to milliseconds
+        setTimeElapsed(0);
+        if (interval) clearInterval(interval);
+      }, duration * 60 * 1000);
 
       setTimerTimeout(timeout);
     }
-  }, [timerTimeout]);
+  }, [timerTimeout, timerInterval]);
 
   return (
     <AudioContext.Provider
@@ -69,6 +86,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         currentSound,
         isPlaying,
         timerDuration,
+        timeElapsed,
         playSound,
         togglePlayPause,
         setTimer,

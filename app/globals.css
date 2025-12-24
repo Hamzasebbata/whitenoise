@@ -431,6 +431,39 @@ body[data-theme="rain"] .decorative-shape.shape-3 {
   transform: translateY(-50%) scale(1.2);
 }
 
+/* Player Compact Minimal - Slider discret */
+.player-compact-minimal {
+  margin-bottom: 24px;
+  padding: 0 16px;
+  animation: fade-scale-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.progress-bar-minimal {
+  height: 3px;
+  background: rgba(184, 201, 184, 0.15);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill-minimal {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-sage-deep) 0%, var(--accent-sage) 100%);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+.time-remaining-minimal {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+}
+
 /* Action Buttons */
 .action-buttons {
   display: flex;

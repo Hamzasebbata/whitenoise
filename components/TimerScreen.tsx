@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { ArrowLeft, Check } from 'lucide-react';
 import { useAudio } from '@/contexts/AudioContext';
 import { TimerDuration } from '@/types/sound';
@@ -12,10 +13,19 @@ const timerOptions = [15, 30, 45, 60, 90, 120];
 
 export default function TimerScreen({ onBack }: TimerScreenProps) {
   const { timerDuration, setTimer } = useAudio();
+  const [customMinutes, setCustomMinutes] = useState('');
 
   const handleTimerSet = (minutes: number | null) => {
     setTimer(minutes as TimerDuration);
     onBack();
+  };
+
+  const handleCustomTimerSet = () => {
+    const minutes = parseInt(customMinutes);
+    if (!isNaN(minutes) && minutes > 0 && minutes <= 999) {
+      setTimer(minutes as TimerDuration);
+      onBack();
+    }
   };
 
   return (
@@ -81,6 +91,52 @@ export default function TimerScreen({ onBack }: TimerScreenProps) {
             })}
           </div>
 
+          {/* Custom timer option */}
+          <div className="animate-fade-slide-up" style={{ animationDelay: '0.35s' }}>
+            <label 
+              className="block text-sm font-semibold mb-3"
+              style={{ 
+                color: 'var(--text-primary)',
+                fontFamily: "'Quicksand', cursive",
+                letterSpacing: '-0.2px'
+              }}
+            >
+              Durée personnalisée
+            </label>
+            <div className="flex gap-3">
+              <input
+                type="number"
+                min="1"
+                max="999"
+                value={customMinutes}
+                onChange={(e) => setCustomMinutes(e.target.value)}
+                placeholder="Ex: 45"
+                className="flex-1 h-14 px-4 text-lg font-semibold rounded-2xl border transition-all duration-300 focus:outline-none focus:scale-[1.01]"
+                style={{ 
+                  background: 'var(--surface-elevated)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid var(--border-subtle)',
+                  color: 'var(--text-primary)',
+                  boxShadow: 'var(--shadow-soft)',
+                }}
+              />
+              <button
+                onClick={handleCustomTimerSet}
+                disabled={!customMinutes || parseInt(customMinutes) <= 0}
+                className="h-14 px-6 text-base font-semibold rounded-2xl border transition-all duration-300 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ 
+                  background: 'var(--accent-terracotta)',
+                  border: '1px solid var(--accent-terracotta-deep)',
+                  color: 'white',
+                  boxShadow: 'var(--shadow-soft)',
+                }}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+
           {/* No timer option */}
           <button
             onClick={() => handleTimerSet(null)}
@@ -92,7 +148,7 @@ export default function TimerScreen({ onBack }: TimerScreenProps) {
               border: timerDuration === null ? '1px solid var(--accent-terracotta-deep)' : '1px solid var(--border-subtle)',
               color: timerDuration === null ? 'white' : 'var(--text-primary)',
               boxShadow: 'var(--shadow-soft)',
-              animationDelay: '0.4s'
+              animationDelay: '0.45s'
             }}
           >
             <div className="flex items-center justify-center gap-2">
