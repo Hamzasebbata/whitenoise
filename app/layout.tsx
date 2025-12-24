@@ -19,10 +19,53 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "Lullaway - Sons apaisants pour bébés",
-  description: "Aidez votre bébé à s'endormir paisiblement avec des bruits blancs et sons apaisants",
+  title: "Bruit Blanc Bébé Gratuit & Sons Apaisants (Pluie, Nature) - Lullaway",
+  description: "Aidez bébé à dormir avec des bruits blancs gratuits. Sans téléchargement, avec minuteur. Pluie, battements de cœur, sons nature.",
+  keywords: ["bruit blanc bébé", "son pour dormir bébé", "bruit blanc gratuit", "pluie bébé", "sons apaisants bébé", "endormir bébé", "white noise baby"],
+  authors: [{ name: "Lullaway" }],
+  creator: "Digital Tools Factory",
+  publisher: "Lullaway",
   verification: {
     google: "6DKDRhL2mMw0U1chXijrRpbctnbBWCssWAUPbPF4g88",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: "https://baby.dailytoolsfactory.com",
+    siteName: "Lullaway",
+    title: "Bruit Blanc Bébé Gratuit & Sons Apaisants - Lullaway",
+    description: "Aidez bébé à dormir avec des bruits blancs gratuits. Sans téléchargement, avec minuteur. Pluie, battements de cœur, sons nature.",
+    images: [
+      {
+        url: "https://baby.dailytoolsfactory.com/Lullaway-2.png",
+        width: 1200,
+        height: 630,
+        alt: "Lullaway - Bruit Blanc pour Bébé",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bruit Blanc Bébé Gratuit & Sons Apaisants - Lullaway",
+    description: "Aidez bébé à dormir avec des bruits blancs gratuits. Sans téléchargement, avec minuteur.",
+    images: ["https://baby.dailytoolsfactory.com/Lullaway-2.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
