@@ -21,6 +21,9 @@ const quicksand = Quicksand({
 export const metadata: Metadata = {
   title: "Lullaway - Sons apaisants pour bébés",
   description: "Aidez votre bébé à s'endormir paisiblement avec des bruits blancs et sons apaisants",
+  verification: {
+    google: "6DKDRhL2mMw0U1chXijrRpbctnbBWCssWAUPbPF4g88",
+  },
 };
 
 export default function RootLayout({
