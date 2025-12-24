@@ -56,6 +56,12 @@ body[data-theme="heartbeat"] {
   transition: background 1.2s ease-in-out;
 }
 
+/* Thème Salon de Coiffure - Fond chaud doré */
+body[data-theme="hairdryer"] {
+  background: linear-gradient(135deg, #FFF0E0 0%, #FFE5D0 50%, #FFDCC0 100%);
+  transition: background 1.2s ease-in-out;
+}
+
 @layer base {
   body {
     background: linear-gradient(180deg, #E3EDF7 0%, #FFF9F5 100%);
@@ -1315,6 +1321,257 @@ html {
   height: 100%;
   pointer-events: none;
   z-index: 3;
+}
+
+/* HAIRDRYER/SALON THEME */
+.hairdryer-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 50%, 
+    rgba(255, 220, 180, 0.4) 0%,
+    transparent 60%);
+}
+
+/* Cercles lumineux pulsants */
+.light-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 4px solid rgba(255, 180, 100, 0.7);
+  animation: ring-pulse 4s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.light-ring:nth-child(2) {
+  width: 300px;
+  height: 300px;
+  animation-delay: 0s;
+}
+
+.light-ring:nth-child(3) {
+  width: 450px;
+  height: 450px;
+  animation-delay: 1.3s;
+  border-color: rgba(255, 200, 120, 0.6);
+}
+
+.light-ring:nth-child(4) {
+  width: 600px;
+  height: 600px;
+  animation-delay: 2.6s;
+  border-color: rgba(255, 220, 150, 0.5);
+}
+
+@keyframes ring-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* Vagues de chaleur horizontales */
+.heat-wave {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 180, 100, 0.4) 25%,
+    rgba(255, 200, 120, 0.5) 50%,
+    rgba(255, 180, 100, 0.4) 75%,
+    transparent 100%);
+  border-radius: 50%;
+  filter: blur(30px);
+  animation: wave-flow 8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.heat-wave:nth-child(5) {
+  top: 25%;
+  animation-delay: 0s;
+}
+
+.heat-wave:nth-child(6) {
+  top: 50%;
+  animation-delay: 2s;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 200, 120, 0.5) 25%,
+    rgba(255, 220, 140, 0.6) 50%,
+    rgba(255, 200, 120, 0.5) 75%,
+    transparent 100%);
+}
+
+.heat-wave:nth-child(7) {
+  top: 75%;
+  animation-delay: 4s;
+}
+
+@keyframes wave-flow {
+  0%, 100% {
+    transform: translateX(-10%) scaleY(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(10%) scaleY(1.3);
+    opacity: 1;
+  }
+}
+
+/* Particules dorées qui flottent */
+.golden-particle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 220, 100, 1) 0%,
+    rgba(255, 180, 80, 0.8) 50%,
+    rgba(255, 140, 60, 0.4) 100%);
+  box-shadow: 0 0 20px rgba(255, 200, 100, 0.8);
+  animation: particle-float linear infinite;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.golden-particle:nth-child(11) {
+  left: 15%;
+  animation-duration: 10s;
+  animation-delay: 0s;
+}
+
+.golden-particle:nth-child(12) {
+  left: 30%;
+  animation-duration: 12s;
+  animation-delay: 2s;
+}
+
+.golden-particle:nth-child(13) {
+  left: 45%;
+  animation-duration: 11s;
+  animation-delay: 4s;
+}
+
+.golden-particle:nth-child(14) {
+  left: 60%;
+  animation-duration: 13s;
+  animation-delay: 1s;
+}
+
+.golden-particle:nth-child(15) {
+  left: 75%;
+  animation-duration: 10.5s;
+  animation-delay: 3s;
+}
+
+.golden-particle:nth-child(16) {
+  left: 85%;
+  animation-duration: 11.5s;
+  animation-delay: 5s;
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(100vh) translateX(0) rotate(0deg) scale(0.5);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(50vh) translateX(40px) rotate(180deg) scale(1.5);
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100px) translateX(-40px) rotate(360deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Halo central chaud */
+.central-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 200, 120, 0.6) 0%,
+    rgba(255, 180, 100, 0.4) 30%,
+    rgba(255, 160, 80, 0.2) 50%,
+    transparent 70%);
+  animation: glow-pulse 5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Lignes ondulantes - ondes sonores */
+.sound-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 180, 100, 0.8) 50%,
+    transparent 100%);
+  box-shadow: 0 0 15px rgba(255, 180, 100, 0.6);
+  animation: line-wave 3s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.sound-line:nth-child(8) {
+  top: 35%;
+  animation-delay: 0s;
+}
+
+.sound-line:nth-child(9) {
+  top: 50%;
+  animation-delay: 1s;
+}
+
+.sound-line:nth-child(10) {
+  top: 65%;
+  animation-delay: 2s;
+}
+
+@keyframes line-wave {
+  0%, 100% {
+    transform: scaleY(1) translateX(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scaleY(4) translateX(5%);
+    opacity: 1;
+  }
 }
 
 /* Transition entre thèmes */

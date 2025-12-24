@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import RainTheme from './RainTheme';
 import HeartbeatTheme from './HeartbeatTheme';
+import HairdryerTheme from './HairdryerTheme';
 
 interface ThemeBackgroundProps {
   soundId: string;
@@ -36,8 +37,13 @@ export default function ThemeBackground({ soundId, isPlaying }: ThemeBackgroundP
     return <HeartbeatTheme isPlaying={isPlaying} />;
   }
 
+  // HAIRDRYER/SALON THEME - Salon de Coiffure avec chaleur dorée
+  if (currentTheme === 'hairdryer') {
+    return <HairdryerTheme isPlaying={isPlaying} />;
+  }
+
   // WIND CHIMES THEME
-  if (currentTheme === 'wind' || currentTheme === 'hairdryer') {
+  if (currentTheme === 'wind') {
     const chimes = Array.from({ length: 6 }, (_, i) => ({
       id: i,
       left: 15 + i * 15,

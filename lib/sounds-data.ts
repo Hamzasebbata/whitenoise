@@ -19,11 +19,11 @@ export const SOUNDS: Sound[] = [
   },
   {
     id: 'hairdryer',
-    name: 'Sèche-cheveux',
+    name: 'Salon de Coiffure',
     icon: '💨',
-    audioUrl: '/sounds/hairdryer.mp3',
-    isPremium: true,
-    description: 'Souffle régulier',
+    audioUrl: '/sounds/Salon_de_coiffure.wav',
+    isPremium: false,
+    description: 'Ambiance chaleureuse',
   },
   {
     id: 'waves',
