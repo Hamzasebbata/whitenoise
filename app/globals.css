@@ -101,7 +101,7 @@ body[data-theme="hairdryer"] {
 }
 
 .logo-image {
-  height: 80px;
+  height: 160px;
   width: auto;
   object-fit: contain;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
