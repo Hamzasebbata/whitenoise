@@ -7,6 +7,7 @@ export const SOUNDS: Sound[] = [
     icon: '🌫️',
     audioUrl: '/sounds/white-noise.mp3',
     isPremium: false,
+    description: 'Son apaisant continu',
   },
   {
     id: 'rain',
@@ -14,6 +15,7 @@ export const SOUNDS: Sound[] = [
     icon: '🌧️',
     audioUrl: '/sounds/rain.mp3',
     isPremium: false,
+    description: 'Averse apaisante',
   },
   {
     id: 'hairdryer',
@@ -21,6 +23,7 @@ export const SOUNDS: Sound[] = [
     icon: '💨',
     audioUrl: '/sounds/hairdryer.mp3',
     isPremium: true,
+    description: 'Souffle régulier',
   },
   {
     id: 'waves',
@@ -28,6 +31,7 @@ export const SOUNDS: Sound[] = [
     icon: '🌊',
     audioUrl: '/sounds/waves.mp3',
     isPremium: true,
+    description: 'Bercement océanique',
   },
   {
     id: 'heartbeat',
@@ -35,6 +39,7 @@ export const SOUNDS: Sound[] = [
     icon: '💗',
     audioUrl: '/sounds/Battements de coeur.wav',
     isPremium: false,
+    description: 'Environnement utérin',
   },
   {
     id: 'wind',
@@ -42,6 +47,7 @@ export const SOUNDS: Sound[] = [
     icon: '🍃',
     audioUrl: '/sounds/wind.mp3',
     isPremium: true,
+    description: 'Brise légère',
   },
   {
     id: 'train',
@@ -49,6 +55,7 @@ export const SOUNDS: Sound[] = [
     icon: '🚂',
     audioUrl: '/sounds/train.mp3',
     isPremium: true,
+    description: 'Roulement rythmique',
   },
 ];
 

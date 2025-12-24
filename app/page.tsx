@@ -79,7 +79,7 @@ export default function PlayerPage() {
         <div className="sound-info">
           <div className="sound-status">En cours de lecture</div>
           <h1 className="sound-title">{currentSound?.name || 'Pluie Douce'}</h1>
-          <p className="sound-subtitle">Averse apaisante</p>
+          <p className="sound-subtitle">{currentSound?.description || 'Averse apaisante'}</p>
         </div>
 
         {/* Contrôles compacts - Slider discret */}
