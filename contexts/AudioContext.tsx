@@ -31,12 +31,33 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     audioManager.play(sound.audioUrl, sound.id);
     setCurrentSound(sound);
     setIsPlaying(true);
+
+    // 🎯 Tracking Google Analytics 4
+    if (typeof window !== 'undefined' && typeof (window as any).gtag !== 'undefined') {
+      (window as any).gtag('event', 'play_sound', {
+        sound_name: sound.name,
+        sound_id: sound.id,
+        sound_is_premium: sound.isPremium,
+        event_category: 'engagement',
+        event_label: `Play: ${sound.name}`,
+      });
+    }
   }, []);
 
   const togglePlayPause = useCallback(() => {
     if (isPlaying) {
       audioManager.pause();
       setIsPlaying(false);
+
+      // 🎯 Tracking Google Analytics 4 - Pause
+      if (typeof window !== 'undefined' && typeof (window as any).gtag !== 'undefined' && currentSound) {
+        (window as any).gtag('event', 'pause_sound', {
+          sound_name: currentSound.name,
+          sound_id: currentSound.id,
+          event_category: 'engagement',
+          event_label: `Pause: ${currentSound.name}`,
+        });
+      }
     } else {
       if (currentSound) {
         // Si le son n'a jamais été joué, on le lance avec play()
@@ -50,6 +71,16 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
           audioManager.resume();
         }
         setIsPlaying(true);
+
+        // 🎯 Tracking Google Analytics 4 - Play/Resume
+        if (typeof window !== 'undefined' && typeof (window as any).gtag !== 'undefined') {
+          (window as any).gtag('event', 'resume_sound', {
+            sound_name: currentSound.name,
+            sound_id: currentSound.id,
+            event_category: 'engagement',
+            event_label: `Resume: ${currentSound.name}`,
+          });
+        }
       }
     }
   }, [isPlaying, currentSound]);
@@ -68,6 +99,16 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     setTimerDuration(duration);
     setTimeElapsed(0);
 
+    // 🎯 Tracking Google Analytics 4 - Timer
+    if (typeof window !== 'undefined' && typeof (window as any).gtag !== 'undefined') {
+      (window as any).gtag('event', 'set_timer', {
+        timer_duration: duration,
+        timer_type: duration === null ? 'infinite' : 'custom',
+        event_category: 'engagement',
+        event_label: duration === null ? 'Infinite' : `${duration} minutes`,
+      });
+    }
+
     // Set new timer if not infinite
     if (duration !== null) {
       // Update elapsed time every second
@@ -83,6 +124,15 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         setTimerDuration(null);
         setTimeElapsed(0);
         if (interval) clearInterval(interval);
+
+        // 🎯 Tracking GA4 - Timer completed
+        if (typeof window !== 'undefined' && typeof (window as any).gtag !== 'undefined') {
+          (window as any).gtag('event', 'timer_completed', {
+            timer_duration: duration,
+            event_category: 'engagement',
+            event_label: `Timer completed: ${duration} minutes`,
+          });
+        }
       }, duration * 60 * 1000);
 
       setTimerTimeout(timeout);

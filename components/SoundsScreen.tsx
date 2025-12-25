@@ -56,6 +56,16 @@ export default function SoundsScreen({ onBack }: SoundsScreenProps) {
   const handleSoundSelect = (sound: typeof SOUNDS[0]) => {
     // Empêcher la lecture des sons premium
     if (sound.isPremium) {
+      // 🎯 Tracking Google Analytics 4 - Premium Click
+      if (typeof window !== 'undefined' && typeof (window as any).gtag !== 'undefined') {
+        (window as any).gtag('event', 'premium_click', {
+          sound_name: sound.name,
+          sound_id: sound.id,
+          event_category: 'conversion',
+          event_label: `Premium Click: ${sound.name}`,
+        });
+      }
+
       alert('🔒 Ce son est réservé aux membres Premium.\n\nMettez à niveau votre compte pour accéder à tous les sons !');
       return;
     }
