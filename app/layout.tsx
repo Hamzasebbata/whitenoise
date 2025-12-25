@@ -5,6 +5,7 @@ import { AudioProvider } from "@/contexts/AudioContext";
 import { Analytics } from "@vercel/analytics/react";
 import JsonLdSchema from "@/components/JsonLdSchema";
 import { GoogleTagManagerHead, GoogleTagManagerBody } from "@/components/GoogleTagManager";
+import { GoogleAnalyticsScript } from "@/components/GoogleAnalytics";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -79,6 +80,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
+        <GoogleAnalyticsScript />
         <GoogleTagManagerHead />
         <JsonLdSchema />
       </head>
