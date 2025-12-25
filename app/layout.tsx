@@ -4,6 +4,7 @@ import "./globals.css";
 import { AudioProvider } from "@/contexts/AudioContext";
 import { Analytics } from "@vercel/analytics/react";
 import JsonLdSchema from "@/components/JsonLdSchema";
+import { GoogleTagManagerHead, GoogleTagManagerBody } from "@/components/GoogleTagManager";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -78,11 +79,13 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
+        <GoogleTagManagerHead />
         <JsonLdSchema />
       </head>
       <body
         className={`${nunito.variable} ${quicksand.variable} antialiased font-sans`}
       >
+        <GoogleTagManagerBody />
         <AudioProvider>
           {children}
         </AudioProvider>
