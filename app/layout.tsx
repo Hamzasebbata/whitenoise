@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Nunito, Quicksand } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { AudioProvider } from "@/contexts/AudioContext";
 import { Analytics } from "@vercel/analytics/react";
